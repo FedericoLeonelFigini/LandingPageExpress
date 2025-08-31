@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Landing Page Express • FigiKhan</title>
+  <meta name="description" content="Landing Page Express: sección única con hero, beneficios, CTA y 5 servicios. Paleta dorada, responsive y lista para convertir.">
+  <meta name="theme-color" content="#0b0f14">
+  <meta property="og:title" content="Landing Page Express • FigiKhan">
+  <meta property="og:description" content="Sección única con hero, beneficios, CTA y 5 servicios.">
+  <meta property="og:image" content="imagenes/logopng.png">
+  <link rel="preload" href="imagenes/logopng.png" as="image">
+  <link rel="stylesheet" href="estilos.css">
+  <!-- (Opcional) GA4: reemplaza G-XXXX por tu ID y descomenta
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}; gtag('js', new Date()); gtag('config', 'G-XXXX');
+  </script>
+  -->
+</head>
+<body>
+  <!-- Fondo + Destello -->
+  <div class="bg" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="site-header container">
+    <a href="#inicio" class="brand" aria-label="FigiKhan">
+      <img src="logopng.png" alt="FigiKhan logotipo" class="logo">
+      <span>FigiKhan</span>
+    </a>
+  </header>
+
+  <!-- Sección única -->
+  <main id="inicio" class="container one-section">
+    <!-- HERO -->
+    <section class="hero">
+      <span class="kicker">Plan destacado</span>
+      <h1 class="hero-title">Landing Page Express</h1>
+      <p class="hero-sub">
+        Una landing <strong>lista para vender</strong>: hero claro, beneficios concretos,
+        CTA directo a WhatsApp o formulario, y 5 servicios listos para escalar.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="#contacto">Empezar ahora</a>
+        <a class="btn btn-outline" href="#servicios">Ver servicios</a>
+      </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section class="beneficios reveal">
+      <ul class="bullets">
+        <li><span class="dot"></span>Sección única con hero, beneficios y CTA.</li>
+        <li><span class="dot"></span>Botón a WhatsApp o formulario de contacto.</li>
+        <li><span class="dot"></span>Diseño responsive (móvil, tablet y desktop).</li>
+        <li><span class="dot"></span>SEO básico (título y descripción).</li>
+        <li><span class="dot"></span>Integración de Analytics (opcional).</li>
+      </ul>
+    </section>
+
+    <!-- SERVICIOS (5 tarjetas pequeñas) -->
+    <section id="servicios" class="servicios reveal">
+      <h2 class="section-title">Servicios</h2>
+      <div class="grid-5">
+        <article class="card tiny">
+          <div class="icon">⚡</div>
+          <h3>Landing Express</h3>
+          <p>Hero + beneficios + CTA. Entrega ágil.</p>
+        </article>
+        <article class="card tiny">
+          <div class="icon">📄</div>
+          <h3>One Page</h3>
+          <p>Secciones: quién soy, servicios, trabajos, contacto.</p>
+        </article>
+        <article class="card tiny">
+          <div class="icon">🧩</div>
+          <h3>Maquetación</h3>
+          <p>HTML/SCSS accesible, limpio y escalable.</p>
+        </article>
+        <article class="card tiny">
+          <div class="icon">🎛️</div>
+          <h3>UI Animada</h3>
+          <p>Micro-interacciones y scroll suave.</p>
+        </article>
+        <article class="card tiny">
+          <div class="icon">📈</div>
+          <h3>Optimización</h3>
+          <p>SEO básico + performance inicial.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA / CONTACTO -->
+    <section id="contacto" class="contacto reveal">
+      <div class="cta-card">
+        <div class="cta-copy">
+          <h2 class="section-title">¿Listo para despegar?</h2>
+          <p>Escribime por WhatsApp o dejá tu mensaje y te respondo a la brevedad.</p>
+          <div class="cta-row">
+            <a class="btn btn-gold" target="_blank" rel="noopener"
+               href="https://wa.me/5490000000000?text=Hola%20FigiKhan%2C%20quiero%20mi%20Landing%20Page%20Express.">
+              Hablar por WhatsApp
+            </a>
+            <button class="btn btn-outline" data-open-form>Usar formulario</button>
+          </div>
+        </div>
+        <form class="form hidden" onsubmit="return sendWapp(event)" aria-hidden="true">
+          <label>Nombre
+            <input type="text" name="nombre" required placeholder="Tu nombre">
+          </label>
+          <label>WhatsApp
+            <input type="tel" name="telefono" required placeholder="54 9 ...">
+          </label>
+          <label>Mensaje
+            <textarea name="mensaje" rows="4" required placeholder="Contame sobre tu negocio o servicio"></textarea>
+          </label>
+          <div class="cta-row left">
+            <button class="btn btn-gold" type="submit">Enviar por WhatsApp</button>
+            <button class="btn btn-outline" type="button" data-close-form>Cerrar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container foot-inner">
+      <img src="logopng.png" alt="FigiKhan" class="footer-logo">
+      <small>© FigiKhan — Landing Page Express</small>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

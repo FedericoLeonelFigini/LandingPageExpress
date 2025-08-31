@@ -1,0 +1,187 @@
+// ===== Variables base (se mantienen dorados y fondo)
+$bg-dark: #0b0f14;
+$bg-deeper: #0a0d13;
+$gold-500: #ffd700;
+$gold-600: #e6c200;
+$text: #e9edf1;
+$muted: #aab3c2;
+$shadow: 0 10px 30px rgba(0,0,0,.35);
+$radius: 16px;
+
+// ===== Breakpoints
+$bp-xl: 1280px;
+$bp-lg: 1100px;
+$bp-md: 1024px;
+$bp-sm: 768px;
+$bp-xs: 480px;
+
+// ===== Utilidades
+@mixin container { max-width: 1100px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left)) 0 max(20px, env(safe-area-inset-right)); }
+@mixin glass { background: rgba(255, 255, 255, .02); backdrop-filter: blur(6px); }
+
+// ===== Reset mínimo
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+// ===== Tipografía fluida y layout base
+:root{
+  --space-1: clamp(8px, 1.2vw, 12px);
+  --space-2: clamp(12px, 1.5vw, 16px);
+  --space-3: clamp(16px, 2vw, 24px);
+  --space-4: clamp(24px, 3vw, 36px);
+  --space-5: clamp(32px, 4vw, 56px);
+}
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial;
+  color: $text; background: $bg-dark;
+  line-height: 1.5; min-height: 100dvh;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+
+// ===== Fondo y destello (igual que antes, con perf tweaks)
+.bg {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden;
+  background:
+    radial-gradient(1200px 600px at 10% 15%, rgba(255,215,0,.07), transparent 60%),
+    radial-gradient(800px 400px at 90% 80%, rgba(255,215,0,.06), transparent 60%),
+    linear-gradient(180deg, $bg-deeper 0%, $bg-dark 100%);
+  will-change: transform, opacity;
+
+  &::before {
+    content: "";
+    position: absolute; inset: -20%;
+    background: radial-gradient(circle at var(--flare-x, 0%) var(--flare-y, 50%),
+                 rgba(255, 215, 0, .20) 0%,
+                 rgba(255, 215, 0, .10) 10%,
+                 rgba(255, 215, 0, 0) 35%);
+    filter: blur(24px);
+    animation: sweep 14s linear infinite;
+    pointer-events: none;
+    will-change: transform;
+  }
+}
+@keyframes sweep {
+  0%   { transform: translateX(-20%) translateY(-10%) rotate(0.01deg); }
+  50%  { transform: translateX(20%) translateY(10%) rotate(0.01deg); }
+  100% { transform: translateX(-20%) translateY(-10%) rotate(0.01deg); }
+}
+
+// ===== Header
+.site-header { @include container; height: clamp(60px, 7dvh, 76px); display:flex; align-items:center; }
+.brand { display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.3px; }
+.logo { height: clamp(34px, 4.5vw, 44px); width:auto; }
+
+// ===== Contenedor y sección única
+.container { @include container; }
+.one-section { padding: var(--space-3) 0 var(--space-5); }
+
+// ===== Hero
+.hero {
+  text-align: center; margin-top: var(--space-1);
+
+  .kicker {
+    display:inline-block; font-size: clamp(.85rem, 1.6vw, .95rem); color: $gold-500;
+    border:1px solid rgba(255,215,0,.35); background: rgba(255,215,0,.08);
+    padding:.3rem .7rem; border-radius: 999px;
+  }
+  .hero-title { font-size: clamp(1.9rem, 5vw, 3rem); margin:.5rem 0 .4rem; line-height: 1.15; }
+  .hero-sub { color:$muted; max-width:min(800px, 92vw); margin: 0 auto; font-size: clamp(1rem, 2.2vw, 1.05rem); }
+}
+
+.cta-row {
+  display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top: var(--space-2);
+  .btn {
+    display:inline-flex; align-items:center; gap:.5rem;
+    padding: clamp(.8rem, 2.2vw, .95rem) clamp(1rem, 3vw, 1.2rem);
+    border-radius: 12px; font-weight: 700; box-shadow: $shadow; border:1px solid rgba(255,255,255,.08);
+    min-height: 44px;  // accesible en móvil
+    &.btn-gold { color:#0b0f14; background: linear-gradient(180deg, $gold-500 0%, $gold-600 100%); }
+    &.btn-outline { background: transparent; color: $text; border-color: rgba(255,215,0,.4); }
+  }
+}
+
+// ===== Beneficios
+.beneficios {
+  margin-top: var(--space-2);
+  .bullets { list-style:none; padding-left:0; max-width:min(820px, 92vw); margin:0 auto; }
+  .bullets li { display:flex; gap:.6rem; align-items:flex-start; margin:.45rem 0; color:$muted; }
+  .dot { width:10px; height:10px; border-radius:50%; background:$gold-600; margin-top:.4rem; box-shadow:0 0 12px rgba(255,215,0,.6); }
+}
+
+// ===== Servicios (5 → 4 → 3 → 2 → 1)
+.servicios {
+  margin-top: var(--space-3);
+  .section-title { font-size: clamp(1.3rem, 3vw, 1.8rem); margin: 0 0 12px; text-align:center; }
+  .grid-5 {
+    display:grid; gap:14px;
+    grid-template-columns: repeat(5, minmax(0,1fr));
+
+    @media (max-width: $bp-xl){ grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: $bp-md){ grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: $bp-sm){ grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: $bp-xs){ grid-template-columns: 1fr; }
+  }
+
+  .card.tiny {
+    @include glass;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:$radius; padding: clamp(12px, 2.5vw, 16px); text-align:center;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    will-change: transform, box-shadow;
+
+    .icon { font-size: clamp(18px, 3.5vw, 22px); margin-bottom: 6px; }
+    h3 { margin: 4px 0 4px; font-size: clamp(.95rem, 2.4vw, 1rem); }
+    p { margin: 0; font-size: clamp(.9rem, 2.2vw, .95rem); color: $muted; }
+
+    &:hover { transform: translateY(-4px); border-color: rgba(255,215,0,.35); box-shadow: 0 6px 26px rgba(255,215,0,.18); }
+  }
+}
+
+// ===== Contacto / CTA final
+.contacto {
+  margin-top: var(--space-3);
+
+  .cta-card {
+    display:grid; gap: clamp(14px, 3vw, 18px);
+    grid-template-columns: 1.15fr .85fr;
+    border:1px solid rgba(255,255,255,.08); border-radius:$radius; padding: clamp(14px, 3.6vw, 18px);
+    @include glass;
+
+    @media (max-width: 900px){ grid-template-columns: 1fr; }
+  }
+
+  .form.hidden { display:none; }
+
+  .form {
+    display:grid; gap:10px;
+    input, textarea {
+      width:100%; padding: clamp(.7rem, 2.4vw, .9rem);
+      border-radius: 12px; border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.25); color: $text;
+    }
+    textarea { resize: vertical; min-height: 120px; }
+    .cta-row.left { justify-content:flex-start; gap:10px; flex-wrap:wrap; }
+    .btn { min-width: 180px; }
+  }
+}
+
+// ===== Footer
+.site-footer { margin-top: var(--space-4); padding: 22px 0; text-align:center; color: $muted; }
+.footer-logo { height: 36px; opacity:.9; display:block; margin:0 auto 6px; }
+
+// ===== Revelado en scroll
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.show { opacity: 1; transform: translateY(0); }
+
+// ===== Ajustes táctiles y reducción de movimiento
+@media (pointer: coarse) {
+  .servicios .card.tiny:hover { transform: none; box-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .bg::before { animation: none; }
+}
