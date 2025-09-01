@@ -1,5 +1,5 @@
 // ====== CONFIGURA TU NÚMERO AQUÍ (formato internacional, sin +) ======
-const PHONE = '54911XXXXXXXX'; // ← Reemplazá por tu número real (ej: 5491122334455)
+const PHONE = '5491141999497'; // ← Reemplazá por tu número real (ej: 5491122334455)
 
 // ====== Utilidades
 const $ = (sel, root=document) => root.querySelector(sel);
