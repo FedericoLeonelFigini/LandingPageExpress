@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- SEO básico -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Landing Page Express • FigiKhan</title>
-  <meta name="description" content="Landing Page Express: sección única con hero, beneficios, CTA y 5 servicios. Paleta dorada, responsive y lista para convertir.">
+  <title>Figikhan • Comidas caseras | Landing Page</title>
+  <meta name="description" content="Figikhan Comidas caseras: menú casero con porciones abundantes. Pedí por WhatsApp.">
   <meta name="theme-color" content="#0b0f14">
-  <meta property="og:title" content="Landing Page Express • FigiKhan">
-  <meta property="og:description" content="Sección única con hero, beneficios, CTA y 5 servicios.">
+  <meta property="og:title" content="Figikhan • Comidas caseras">
+  <meta property="og:description" content="Menú casero, porciones abundantes y envío rápido.">
   <meta property="og:image" content="imagenes/logopng.png">
-  <link rel="preload" href="imagenes/logopng.png" as="image">
+
+  <link rel="preload" href="./imagenes/logopng.png" as="image">
   <link rel="stylesheet" href="estilos.css">
-  <!-- (Opcional) GA4: reemplaza G-XXXX por tu ID y descomenta
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments)}; gtag('js', new Date()); gtag('config', 'G-XXXX');
-  </script>
-  -->
 </head>
 <body>
-  <!-- Fondo + Destello -->
+  <!-- Fondo -->
   <div class="bg" aria-hidden="true"></div>
 
   <!-- Header -->
   <header class="site-header container">
-    <a href="#inicio" class="brand" aria-label="FigiKhan">
-      <img src="logopng.png" alt="FigiKhan logotipo" class="logo">
-      <span>FigiKhan</span>
+    <a href="#inicio" class="brand" aria-label="Figikhan">
+      <img src="./imagenes/logopng.png" alt="Figikhan logotipo" class="logo">
+      <span>Figikhan • Comidas caseras</span>
     </a>
   </header>
 
@@ -35,16 +30,19 @@
   <main id="inicio" class="container one-section">
     <!-- HERO -->
     <section class="hero">
-      <span class="kicker">Plan destacado</span>
-      <h1 class="hero-title">Landing Page Express</h1>
-      <p class="hero-sub">
-        Una landing <strong>lista para vender</strong>: hero claro, beneficios concretos,
-        CTA directo a WhatsApp o formulario, y 5 servicios listos para escalar.
-      </p>
+      <span class="kicker">Hecho en casa • Sabores reales</span>
+      <h1 class="hero-title">Comidas caseras, porciones abundantes</h1>
+      <p class="hero-sub">Menú simple, ingredientes frescos y envío rápido. Pedí tu plato favorito ahora mismo.</p>
       <div class="cta-row">
-        <a class="btn btn-gold" href="#contacto">Empezar ahora</a>
-        <a class="btn btn-outline" href="#servicios">Ver servicios</a>
+        <a class="btn btn-gold" id="cta-wapp-hero" href="#" rel="noopener">Pedir por WhatsApp</a>
+        <a class="btn btn-outline" href="#servicios">Ver menú</a>
       </div>
+
+      <!-- Texto con animación de ola -->
+      <p class="wave-text" data-wave>
+        Una landing page completa es una página diseñada para captar la atención, transmitir un mensaje claro
+        y guiar al usuario hacia una acción (compra, suscripción, contacto, descarga, etc.).
+      </p>
     </section>
 
     <!-- BENEFICIOS -->
@@ -54,38 +52,83 @@
         <li><span class="dot"></span>Botón a WhatsApp o formulario de contacto.</li>
         <li><span class="dot"></span>Diseño responsive (móvil, tablet y desktop).</li>
         <li><span class="dot"></span>SEO básico (título y descripción).</li>
-        <li><span class="dot"></span>Integración de Analytics (opcional).</li>
+        <li><span class="dot"></span>Modificamos el diseño segun tus preferencias</li>
       </ul>
     </section>
 
-    <!-- SERVICIOS (5 tarjetas pequeñas) -->
+    <!-- SERVICIOS / MENÚ -->
     <section id="servicios" class="servicios reveal">
-      <h2 class="section-title">Servicios</h2>
+      <h2 class="section-title">Nuestro menú casero</h2>
+
       <div class="grid-5">
-        <article class="card tiny">
-          <div class="icon">⚡</div>
-          <h3>Landing Express</h3>
-          <p>Hero + beneficios + CTA. Entrega ágil.</p>
+        <!-- 1 -->
+        <article class="card tiny" data-item="Pasta del día">
+          <img class="food" src="./imagenes/pasta.png" alt="Pasta del día">
+          <div class="item-head">
+            <h3>Pasta del día</h3>
+            <span class="price" data-price></span>
+          </div>
+          <p>Salsa casera, porción generosa. Ideal para compartir.</p>
+          <button class="card-cta" data-add>
+            <span class="ico-wapp" aria-hidden="true"></span>
+            Agregar y pedir
+          </button>
         </article>
-        <article class="card tiny">
-          <div class="icon">📄</div>
-          <h3>One Page</h3>
-          <p>Secciones: quién soy, servicios, trabajos, contacto.</p>
+
+        <!-- 2 -->
+        <article class="card tiny" data-item="Pollo al horno">
+          <img class="food" src="./imagenes/pollo.png" alt="Pollo al horno">
+          <div class="item-head">
+            <h3>Pollo al horno</h3>
+            <span class="price" data-price></span>
+          </div>
+          <p>Hierbas, limón y papas rústicas. Bien casero.</p>
+          <button class="card-cta" data-add>
+            <span class="ico-wapp" aria-hidden="true"></span>
+            Agregar y pedir
+          </button>
         </article>
-        <article class="card tiny">
-          <div class="icon">🧩</div>
-          <h3>Maquetación</h3>
-          <p>HTML/SCSS accesible, limpio y escalable.</p>
+
+        <!-- 3 -->
+        <article class="card tiny" data-item="Ensalada fresca">
+          <img class="food" src="./imagenes/ensalada.png" alt="Ensalada fresca">
+          <div class="item-head">
+            <h3>Ensalada fresca</h3>
+            <span class="price" data-price></span>
+          </div>
+          <p>Estacional, crujiente y con aderezo de la casa.</p>
+          <button class="card-cta" data-add>
+            <span class="ico-wapp" aria-hidden="true"></span>
+            Agregar y pedir
+          </button>
         </article>
-        <article class="card tiny">
-          <div class="icon">🎛️</div>
-          <h3>UI Animada</h3>
-          <p>Micro-interacciones y scroll suave.</p>
+
+        <!-- 4 -->
+        <article class="card tiny" data-item="Empanadas">
+          <img class="food" src="./imagenes/empanadas.png" alt="Empanadas">
+          <div class="item-head">
+            <h3>Empanadas</h3>
+            <span class="price" data-price></span>
+          </div>
+          <p>Carne, pollo o humita. Masa y relleno artesanales.</p>
+          <button class="card-cta" data-add>
+            <span class="ico-wapp" aria-hidden="true"></span>
+            Agregar y pedir
+          </button>
         </article>
-        <article class="card tiny">
-          <div class="icon">📈</div>
-          <h3>Optimización</h3>
-          <p>SEO básico + performance inicial.</p>
+
+        <!-- 5 -->
+        <article class="card tiny" data-item="Postre casero">
+          <img class="food" src="./imagenes/postre.png" alt="Postre casero">
+          <div class="item-head">
+            <h3>Postre casero</h3>
+            <span class="price" data-price></span>
+          </div>
+          <p>Flan, budín o tiramisú. Dulce final perfecto.</p>
+          <button class="card-cta" data-add>
+            <span class="ico-wapp" aria-hidden="true"></span>
+            Agregar y pedir
+          </button>
         </article>
       </div>
     </section>
@@ -94,39 +137,43 @@
     <section id="contacto" class="contacto reveal">
       <div class="cta-card">
         <div class="cta-copy">
-          <h2 class="section-title">¿Listo para despegar?</h2>
-          <p>Escribime por WhatsApp o dejá tu mensaje y te respondo a la brevedad.</p>
-          <div class="cta-row">
-            <a class="btn btn-gold" target="_blank" rel="noopener"
-               href="https://wa.me/5490000000000?text=Hola%20FigiKhan%2C%20quiero%20mi%20Landing%20Page%20Express.">
-              Hablar por WhatsApp
-            </a>
-            <button class="btn btn-outline" data-open-form>Usar formulario</button>
+          <h2 class="section-title">¿Listo para pedir?</h2>
+          <p>Elegí del menú o escribinos y armamos tu pedido.</p>
+          <div class="cta-row" style="justify-content:flex-start">
+            <a class="btn btn-gold" id="cta-wapp-contacto" href="#" rel="noopener">Pedir por WhatsApp</a>
           </div>
         </div>
-        <form class="form hidden" onsubmit="return sendWapp(event)" aria-hidden="true">
+
+        <form class="form" onsubmit="return sendWapp(event)">
           <label>Nombre
             <input type="text" name="nombre" required placeholder="Tu nombre">
           </label>
           <label>WhatsApp
             <input type="tel" name="telefono" required placeholder="54 9 ...">
           </label>
-          <label>Mensaje
-            <textarea name="mensaje" rows="4" required placeholder="Contame sobre tu negocio o servicio"></textarea>
+          <label>Pedido / Mensaje
+            <textarea name="mensaje" rows="4" required placeholder="Ej: 2 Pastas + 1 Pollo"></textarea>
           </label>
           <div class="cta-row left">
             <button class="btn btn-gold" type="submit">Enviar por WhatsApp</button>
-            <button class="btn btn-outline" type="button" data-close-form>Cerrar</button>
           </div>
         </form>
       </div>
     </section>
   </main>
 
+  <!-- Footer con redes -->
   <footer class="site-footer">
     <div class="container foot-inner">
-      <img src="logopng.png" alt="FigiKhan" class="footer-logo">
-      <small>© FigiKhan — Landing Page Express</small>
+      <img src="imagenes/logopng.png" alt="Figikhan" class="footer-logo">
+      <nav class="socials">
+        <a href="https://instagram.com/figikhan" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+        <span>·</span>
+        <a href="https://x.com/figikhan" target="_blank" rel="noopener" aria-label="X (Twitter)">X</a>
+        <span>·</span>
+        <a href="https://www.tiktok.com/@figikhan" target="_blank" rel="noopener" aria-label="TikTok">TikTok</a>
+      </nav>
+      <small>© Figikhan — Comidas caseras</small>
     </div>
   </footer>
 

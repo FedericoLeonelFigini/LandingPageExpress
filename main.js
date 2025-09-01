@@ -1,86 +1,125 @@
-// === Destello: sigue el cursor y recorre en automático ===
-(() => {
-  const root = document.documentElement;
-  let auto = { t: 0, speed: 0.0012 }; // barrido automático
-  let mouse = { x: 0.5, y: 0.5, active: false };
+// ====== CONFIGURA TU NÚMERO AQUÍ (formato internacional, sin +) ======
+const PHONE = '54911XXXXXXXX'; // ← Reemplazá por tu número real (ej: 5491122334455)
 
-  const update = () => {
-    auto.t += auto.speed;
-    const ax = (Math.sin(auto.t) * 0.4) + 0.5;
-    const ay = (Math.cos(auto.t * 0.85) * 0.3) + 0.5;
+// ====== Utilidades
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const encode = s => encodeURIComponent(s);
 
-    const fx = mouse.active ? mouse.x : ax;
-    const fy = mouse.active ? mouse.y : ay;
+// ====== Precios aleatorios (ARS)
+function randomPrice(min=4500, max=12000){
+  const n = Math.floor(Math.random() * (max - min + 1)) + min;
+  // Formato ARS con separador de miles
+  return n.toLocaleString('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
+}
 
-    root.style.setProperty('--flare-x', (fx * 100).toFixed(2) + '%');
-    root.style.setProperty('--flare-y', (fy * 100).toFixed(2) + '%');
-    requestAnimationFrame(update);
-  };
-  update();
+// ====== Inicialización de precios y enlaces
+function initMenu(){
+  $$('.card.tiny').forEach(card => {
+    // set precio aleatorio
+    const priceEl = $('[data-price]', card);
+    if (priceEl) priceEl.textContent = randomPrice();
 
-  window.addEventListener('mousemove', (e) => {
-    const w = window.innerWidth, h = window.innerHeight;
-    mouse.x = e.clientX / w; mouse.y = e.clientY / h; mouse.active = true;
-    clearTimeout(mouse._to);
-    mouse._to = setTimeout(() => mouse.active = false, 1200);
-  }, { passive: true });
-})();
+    // click "Agregar y pedir"
+    $('[data-add]', card)?.addEventListener('click', () => {
+      const name = card.getAttribute('data-item') || 'Ítem';
+      const price = priceEl?.textContent || '';
+      addItemToMessage(`${name} — ${price}`);
+      openWhatsApp(); // abre directamente con el pedido
+    });
 
-// === Revelado en scroll ===
-(() => {
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) {
-        e.target.classList.add('show'); io.unobserve(e.target);
-      }
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  } else {
-    // fallback
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
-  }
-})();
+    // también permitir click en la imagen para agregar al pedido (sin abrir wapp)
+    $('.food', card)?.addEventListener('click', () => {
+      const name = card.getAttribute('data-item') || 'Ítem';
+      const price = priceEl?.textContent || '';
+      addItemToMessage(`${name} — ${price}`);
+    });
+  });
+}
 
-// === Formulario a WhatsApp ===
+// ====== Mensaje/pedido (se va acumulando)
+function addItemToMessage(text){
+  const area = $('textarea[name="mensaje"]');
+  if (!area) return;
+  area.value = (area.value ? area.value + '\n' : '') + `• ${text}`;
+}
+
+// ====== Arma el enlace a WhatsApp con el pedido actual
+function buildWappURL(){
+  const area = $('textarea[name="mensaje"]');
+  const pedido = encode(area?.value?.trim() || 'Quiero hacer un pedido.');
+  const url = `https://wa.me/${PHONE}?text=${pedido}`;
+  return url;
+}
+
+// ====== Botones generales a WhatsApp
+function initCTAs(){
+  $('#cta-wapp-hero')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(buildWappURL(), '_blank', 'noopener');
+  });
+  $('#cta-wapp-contacto')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.open(buildWappURL(), '_blank', 'noopener');
+  });
+}
+
+// ====== Form -> WhatsApp (permite usar otro número si el cliente lo completa)
 function sendWapp(e){
   e.preventDefault();
   const f = e.target;
-  const nombre = encodeURIComponent(f.nombre.value.trim());
-  const tel = (f.telefono.value || '').replace(/\D+/g,'');
-  const msg = encodeURIComponent(f.mensaje.value.trim());
-  const texto = `Hola FigiKhan, soy ${nombre}. Quiero la Landing Page Express. ${msg}`;
-  const url = `https://wa.me/${tel}?text=${texto}`;
+  const nombre = encode((f.nombre.value || '').trim());
+  // Si el usuario escribe su número, priorizamos ese para iniciar chat
+  const telUser = (f.telefono.value || '').replace(/\D+/g,'');
+  const basePhone = telUser.length >= 8 ? telUser : PHONE;
+  const msg = encode((f.mensaje.value || '').trim());
+  const texto = `Hola Figikhan, soy ${nombre}. Quiero pedir:\n${msg}`;
+  const url = `https://wa.me/${basePhone}?text=${texto}`;
   window.open(url, '_blank', 'noopener');
   return false;
 }
+window.sendWapp = sendWapp;
 
-// === Abrir/Cerrar formulario ===
-(() => {
-  const openBtn = document.querySelector('[data-open-form]');
-  const closeBtn = document.querySelector('[data-close-form]');
-  const form = document.querySelector('.contacto .form');
-
-  if (openBtn && form) openBtn.addEventListener('click', () => {
-    form.classList.remove('hidden'); form.setAttribute('aria-hidden', 'false');
-  });
-  if (closeBtn && form) closeBtn.addEventListener('click', () => {
-    form.classList.add('hidden'); form.setAttribute('aria-hidden', 'true');
-  });
+// ====== Ola en el texto
+(function wave(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const el = document.querySelector('[data-wave]');
+  if(!el) return;
+  const txt = el.textContent;
+  el.textContent = '';
+  for(const ch of txt){
+    const span = document.createElement('span');
+    if(ch === ' '){ span.className = 'space'; span.innerHTML = '&nbsp;'; }
+    else{ span.className = 'char'; span.textContent = ch; }
+    el.appendChild(span);
+  }
+  if(reduce) return;
+  let t = 0;
+  const amp = 6, freq = 0.35, speed = 0.12;
+  const chars = el.querySelectorAll('.char');
+  (function anim(){
+    t += speed;
+    let i = 0;
+    for(const c of chars){
+      const y = Math.sin(t + i*freq) * amp;
+      c.style.transform = `translateY(${y.toFixed(2)}px)`;
+      i++;
+    }
+    requestAnimationFrame(anim);
+  })();
 })();
 
-// === Micro-animaciones de tarjetas ===
-(() => {
-  const cards = document.querySelectorAll('.card.tiny');
-  cards.forEach(card => {
-    card.addEventListener('pointermove', (e) => {
-      const r = card.getBoundingClientRect();
-      const x = e.clientX - r.left, y = e.clientY - r.top;
-      card.style.setProperty('--mx', (x / r.width).toFixed(2));
-      card.style.setProperty('--my', (y / r.height).toFixed(2));
-      card.style.transform = `translateY(-4px) rotateX(${(0.5 - (y/r.height))*3}deg) rotateY(${((x/r.width)-0.5)*3}deg)`;
-    });
-    card.addEventListener('pointerleave', () => {
-      card.style.transform = '';
-    });
-  });
+// ====== Reveal en scroll
+(function reveal(){
+  if(!('IntersectionObserver' in window)){ $$('.reveal').forEach(el=>el.classList.add('show')); return; }
+  const io = new IntersectionObserver((entries)=>{
+    for(const e of entries) if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+  }, { threshold: 0.15 });
+  $$('.reveal').forEach(el=>io.observe(el));
 })();
+
+// ====== Init
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu();
+  initCTAs();
+});
